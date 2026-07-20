@@ -1,5 +1,4 @@
 ﻿import streamlit as st
-import requests
 import whisper
 from datetime import datetime
 from streamlit_mic_recorder import mic_recorder
@@ -86,8 +85,8 @@ with col_output:
             st.error(t("symptom_required", lang))
         else:
             with st.spinner("Analyzing..."):
-                res = requests.post("http://127.0.0.1:8000/get-triage", json={"symptoms": all_symptoms})
-                data = res.json()
+                from triage import get_triage
+                data = get_triage(all_symptoms)
 
             display_severity = translate_output(data["severity"], lang)
             display_explanation = translate_output(data.get("explanation", ""), lang)
